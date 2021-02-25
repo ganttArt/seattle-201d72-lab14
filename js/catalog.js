@@ -17,17 +17,13 @@ function populateForm() {
   for (let index = 0; index < Product.allProducts.length; index++) {
 
     const productInstance = Product.allProducts[index];
-    
     const optionElem = document.createElement('option');
     optionElem.value = productInstance.name;
     optionElem.textContent = productInstance.name;
 
     selectElement.appendChild(optionElem);
-
     console.log(optionElem);
-
   }
-
 }
 
 // When someone submits the form, we need to add the selected item to the cart
@@ -36,7 +32,7 @@ function populateForm() {
 function handleSubmit(event) {
 
   // TODO: Prevent the page from reloading
-
+  event.preventDefault();
   // Do all the things ...
   addSelectedItemToCart();
   cart.saveToLocalStorage();
@@ -50,13 +46,32 @@ function addSelectedItemToCart() {
   // TODO: suss out the item picked from the select list
   // TODO: get the quantity
   // TODO: using those, add one item to the Cart
+  const entQuantity = document.getElementById('quantity');
+  console.log(entQuantity.value);
+  const entItem = document.getElementById('items');
+  console.log(entItem.value);
+  cart.addItem(entItem.value, entQuantity.value);
+  console.log(cart);
 }
 
 // TODO: Update the cart count in the header nav with the number of items in the Cart
-function updateCounter() {}
+function updateCounter() {
+  const quantitySection = document.getElementById('itemCount');
+  quantitySection.textContent = cart.items.length;
+  console.log(cart.items.length);
+}
+
+const cartRow = document.getElementById('cartContents');
+const cartList = document.createElement('ul');
+const cartItem = cartRow.appendChild(cartList);
 
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
+  const entQuantity = document.getElementById('quantity');
+  const entItem = document.getElementById('items');
+  const elemList = document.createElement('li');
+  elemList.textContent = 'Cart Item: ' + entItem.value + ' quantity ' + entQuantity.value;
+  cartList.appendChild(elemList);
   // TODO: Get the item and quantity from the form
   // TODO: Add a new element to the cartContents div with that information
 }
